@@ -34,7 +34,7 @@ public interface ReviewDao {
 	/*
 	 * 通过id查询
 	 */
-	Review get(int id);
+	Review selectById(int id);
 
 	/*
 	 * 查询某产品所有评论

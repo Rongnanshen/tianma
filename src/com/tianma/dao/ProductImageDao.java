@@ -33,7 +33,7 @@ public interface ProductImageDao {
 	/*
 	 * 通过id查询
 	 */
-	ProductImage get(int id);
+	ProductImage selectById(int id);
 
 	/*
 	 * 查询某产品的所有图片（调用分页查询所有图片方法）

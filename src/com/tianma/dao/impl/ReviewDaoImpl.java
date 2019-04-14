@@ -158,7 +158,7 @@ public class ReviewDaoImpl implements ReviewDao {
 	 * @see com.tianma.dao.impl.ReviewDao#get(int)
 	 */
 	@Override
-	public Review get(int id) {
+	public Review selectById(int id) {
 		
 		review = new Review();
 		String sql = "select * from review where id = ?";

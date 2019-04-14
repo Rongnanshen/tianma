@@ -108,7 +108,7 @@ public class ProductImageDaoImpl implements ProductImageDao {
 	 * @see com.tianma.dao.impl.ProductImageDao#get(int)
 	 */
     @Override
-	public ProductImage get(int id) {
+	public ProductImage selectById(int id) {
     	
         productImage = new ProductImage();
         String sql = "select * from ProductImage where id = ?";

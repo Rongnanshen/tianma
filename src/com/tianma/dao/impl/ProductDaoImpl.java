@@ -365,7 +365,7 @@ public class ProductDaoImpl implements ProductDao {
 		int saleCount = new OrderItemDaoImpl().getSaleCount(product.getId());
 		product.setSaleCount(saleCount);
 
-		int reviewCount = new ReviewDaoImpl().getCount(product.getId());
+		int reviewCount = new ReviewDaoImpl().getTotal(product.getId());
 		product.setReviewCount(reviewCount);
 
 	}
