@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<filter>
+    <filter-name>BackServletFilter</filter-name>
+    <filter-class>com.tianma.filter.BackServletFilter</filter-class>
+</filter>
+ 
+<filter-mapping>
+    <filter-name>BackServletFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
