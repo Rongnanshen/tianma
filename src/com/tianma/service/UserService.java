@@ -1,10 +1,10 @@
-package com.tianma.dao;
+package com.tianma.service;
 
 import java.util.List;
 
 import com.tianma.pojo.User;
 
-public interface UserDao {
+public interface UserService {
 
 	/*
 	 * 获取用户总数

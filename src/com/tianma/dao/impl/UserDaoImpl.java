@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tianma.dao.UserDao;
-import com.tianma.pojo.Category;
 import com.tianma.pojo.User;
 import com.tianma.util.DBUtil;
 
@@ -257,7 +256,7 @@ public class UserDaoImpl implements UserDao {
 	 * @see com.tianma.dao.impl.UserDao#get(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public User get(String mobile, String password) {
+	public User login(String mobile, String password) {
         
         String sql = "select * from user where mobile = ? and password=?";
         try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
