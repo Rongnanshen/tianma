@@ -49,11 +49,11 @@ public class RSAUtils {
         
         //加密后的密文  
         String mi = RSAUtils.encryptByPublicKey(ming, pubKey);  
-        System.out.println(mi);  
+        System.out.println("加密后的密文："+mi);  
        
         //解密后的明文  
         ming = RSAUtils.decryptByPrivateKey(mi, priKey);  
-        System.out.println(ming);  
+        System.out.println("解密后的明文："+ming);  
     }
 	
 	/*
@@ -182,7 +182,7 @@ public class RSAUtils {
 	 */
 	public static String decryptByPrivateKey(String data, RSAPrivateKey privateKey) throws Exception {  
         
-		Cipher cipher = Cipher.getInstance("RSA");  
+		Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");  
         
 		cipher.init(Cipher.DECRYPT_MODE, privateKey);  
         
@@ -192,7 +192,7 @@ public class RSAUtils {
         byte[] bytes = data.getBytes();  
         byte[] bcd = ASCII_To_BCD(bytes, bytes.length);  
         
-        System.err.println(bcd.length);  
+        System.out.println(bcd.length);  
         
         //如果密文长度大于模长则要分组解密  
         String ming = "";  
