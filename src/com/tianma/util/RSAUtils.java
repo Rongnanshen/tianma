@@ -23,10 +23,30 @@ import javax.crypto.Cipher;
  */
 public class RSAUtils {
 
+	private static RSAPublicKey pubKey;
+	private static RSAPrivateKey priKey;
 	
-	public static void main(String[] args) throws Exception {  
+	public static RSAPublicKey getPubKey() {
+		return pubKey;
+	}
+
+	public static RSAPrivateKey getPriKey() {
+		return priKey;
+	}
+
+	/*
+	 * 生成一对公钥私钥
+	 */
+	public static void RSA() {  
           
-        HashMap<String, Object> map = RSAUtils.getKeys();  
+        HashMap<String, Object> map = null;
+        HashMap<String, String> encDecMap = null;
+		try {
+			map = RSAUtils.getKeys();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
         
         //生成公钥和私钥  
         RSAPublicKey publicKey = (RSAPublicKey) map.get("public");  
@@ -38,22 +58,31 @@ public class RSAUtils {
         //公钥指数  
         String public_exponent = publicKey.getPublicExponent().toString();  
         //私钥指数  
-        String private_exponent = privateKey.getPrivateExponent().toString();  
-        
-        //明文  
-        String ming = "123456789";  
+        String private_exponent = privateKey.getPrivateExponent().toString();    
         
         //使用模和指数生成公钥和私钥  
-        RSAPublicKey pubKey = RSAUtils.getPublicKey(modulus, public_exponent);  
-        RSAPrivateKey priKey = RSAUtils.getPrivateKey(modulus, private_exponent);  
+        pubKey = RSAUtils.getPublicKey(modulus, public_exponent);  
+        priKey = RSAUtils.getPrivateKey(modulus, private_exponent);  
         
-        //加密后的密文  
-        String mi = RSAUtils.encryptByPublicKey(ming, pubKey);  
+        /*//加密后的密文  
+        String mi = null;
+		try {
+			mi = RSAUtils.encryptByPublicKey(ming, pubKey);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
         System.out.println("加密后的密文："+mi);  
-       
+        
         //解密后的明文  
-        ming = RSAUtils.decryptByPrivateKey(mi, priKey);  
-        System.out.println("解密后的明文："+ming);  
+        try {
+			ming = RSAUtils.decryptByPrivateKey(mi, priKey);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+        System.out.println("解密后的明文："+ming.trim()); */
+        
     }
 	
 	/*
@@ -192,7 +221,7 @@ public class RSAUtils {
         byte[] bytes = data.getBytes();  
         byte[] bcd = ASCII_To_BCD(bytes, bytes.length);  
         
-        System.out.println(bcd.length);  
+        //System.out.println(bcd.length);  
         
         //如果密文长度大于模长则要分组解密  
         String ming = "";  
