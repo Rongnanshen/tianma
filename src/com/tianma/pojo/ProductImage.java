@@ -1,6 +1,8 @@
 package com.tianma.pojo;
 
-public class ProductImage {
+import java.io.Serializable;
+
+public class ProductImage implements Serializable {
 	
 	// productImage id
 	private int id;

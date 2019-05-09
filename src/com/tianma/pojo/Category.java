@@ -1,8 +1,9 @@
 package com.tianma.pojo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Category {
+public class Category implements Serializable {
 
 	//id
 	private int id;

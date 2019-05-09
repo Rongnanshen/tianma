@@ -1,8 +1,9 @@
 package com.tianma.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Review {
+public class Review implements Serializable {
 	
 	//review id
 	private int id;

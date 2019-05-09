@@ -40,7 +40,6 @@ public class RSAUtils {
 	public static void RSA() {  
           
         HashMap<String, Object> map = null;
-        HashMap<String, String> encDecMap = null;
 		try {
 			map = RSAUtils.getKeys();
 		} catch (NoSuchAlgorithmException e) {

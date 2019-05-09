@@ -1,6 +1,8 @@
 package com.tianma.pojo;
 
-public class OrderItem {
+import java.io.Serializable;
+
+public class OrderItem implements Serializable {
 
 	//订单项id
 	private int id;

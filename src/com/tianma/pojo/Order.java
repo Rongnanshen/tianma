@@ -1,11 +1,12 @@
 package com.tianma.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import com.tianma.dao.OrderDao;
 
-public class Order {
+public class Order implements Serializable {
 
 	//订单id
     private int id;

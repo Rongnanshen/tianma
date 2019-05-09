@@ -1,6 +1,8 @@
 package com.tianma.pojo;
 
-public class Property {
+import java.io.Serializable;
+
+public class Property implements Serializable {
 	
 	//Property id
 	private int id;
