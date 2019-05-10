@@ -210,12 +210,23 @@ public class UserDaoImpl implements UserDao {
 	 * @see com.tianma.dao.impl.UserDao#isExist(java.lang.String)
 	 */
 	@Override
-	public boolean isExist(String mobile) {
+	public boolean isExistMobile(String mobile) {
         
 		User user = selectByMobile(mobile);
         return user!=null;
  
     }
+	
+	/*
+	 * 判断昵称是否已经存在
+	 */
+	@Override
+	public boolean isExistName(String name) {
+		
+		User user = selectByName(name);
+        return user!=null;
+        
+	}
 	
 	/*
 	 * 通过手机号查询
@@ -238,6 +249,35 @@ public class UserDaoImpl implements UserDao {
                 user.setId(rs.getInt("id"));
 				user.setName(rs.getString("name"));
 				user.setMobile(mobile);
+				user.setPassword(rs.getString("password"));
+				user.setRole(rs.getString("role"));
+            }
+  
+        } catch (SQLException e) {
+  
+            e.printStackTrace();
+        }
+        return user;
+    }
+	
+	/*
+	 * 通过昵称查询
+	 */
+	@Override
+	public User selectByName(String name) {
+        
+		User user = null;
+          
+        String sql = "select * from user where name = ?";
+        try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, name);
+            ResultSet rs =ps.executeQuery();
+  
+            if (rs.next()) {
+                user = new User();
+                user.setId(rs.getInt("id"));
+				user.setName(name);
+				user.setMobile(rs.getString("mobile"));
 				user.setPassword(rs.getString("password"));
 				user.setRole(rs.getString("role"));
             }

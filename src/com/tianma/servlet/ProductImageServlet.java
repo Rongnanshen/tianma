@@ -1,8 +1,3 @@
-/**
-* 模仿天猫整站j2ee 教程 为how2j.cn 版权所有
-* 本教程仅用于学习使用，切勿用于非法用途，由此引起一切后果与本站无关
-* 供购买者学习，请勿私自传播，否则自行承担相关法律责任
-*/	
 
 package com.tianma.servlet;
 
@@ -19,11 +14,11 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import tmall.bean.Product;
-import tmall.bean.ProductImage;
-import tmall.dao.ProductImageDAO;
-import tmall.util.ImageUtil;
-import tmall.util.Page;
+import com.tianma.dao.ProductImageDao;
+import com.tianma.pojo.Product;
+import com.tianma.pojo.ProductImage;
+import com.tianma.util.ImageUtil;
+import com.tianma.util.Page;
 
 public class ProductImageServlet extends BaseBackServlet {
 	public String add(HttpServletRequest request, HttpServletResponse response, Page page) {
@@ -38,12 +33,12 @@ public class ProductImageServlet extends BaseBackServlet {
         //根据上传的参数生成productImage对象
 		String type= params.get("type");
 		int pid = Integer.parseInt(params.get("pid"));
-		Product p =productDAO.get(pid);
+		Product p =productService.selectById(pid);
 		
 		ProductImage pi = new ProductImage();		
 		pi.setType(type);
 		pi.setProduct(p);
-		productImageDAO.add(pi);
+		productImageService.add(pi);
 		
 		
 		//生成文件
@@ -51,7 +46,7 @@ public class ProductImageServlet extends BaseBackServlet {
         String imageFolder;
         String imageFolder_small=null;
         String imageFolder_middle=null;
-        if(ProductImageDAO.type_single.equals(pi.getType())){
+        if(ProductImageDao.type_single.equals(pi.getType())){
         	imageFolder= request.getSession().getServletContext().getRealPath("img/productSingle");
         	imageFolder_small= request.getSession().getServletContext().getRealPath("img/productSingle_small");
         	imageFolder_middle= request.getSession().getServletContext().getRealPath("img/productSingle_middle");
@@ -77,7 +72,7 @@ public class ProductImageServlet extends BaseBackServlet {
 			        BufferedImage img = ImageUtil.change2jpg(f);
 			        ImageIO.write(img, "jpg", f);		
 			        
-			        if(ProductImageDAO.type_single.equals(pi.getType())){
+			        if(ProductImageDao.type_single.equals(pi.getType())){
 			        	File f_small = new File(imageFolder_small, fileName);
 			        	File f_middle = new File(imageFolder_middle, fileName);
 
@@ -98,7 +93,7 @@ public class ProductImageServlet extends BaseBackServlet {
 
         
 		
-		return "@admin_productImage_list?pid="+p.getId();
+		return "@admin_productImage_selectAll?pid="+p.getId();
 	}
 
 
@@ -107,11 +102,11 @@ public class ProductImageServlet extends BaseBackServlet {
 
 	public String delete(HttpServletRequest request, HttpServletResponse response, Page page) {
 		int id = Integer.parseInt(request.getParameter("id"));
-		ProductImage pi = productImageDAO.get(id);
-		productImageDAO.delete(id);
+		ProductImage pi = productImageService.selectById(id);
+		productImageService.delete(id);
 		
         
-        if(ProductImageDAO.type_single.equals(pi.getType())){
+        if(ProductImageDao.type_single.equals(pi.getType())){
         	String imageFolder_single= request.getSession().getServletContext().getRealPath("img/productSingle");
         	String imageFolder_small= request.getSession().getServletContext().getRealPath("img/productSingle_small");
         	String imageFolder_middle= request.getSession().getServletContext().getRealPath("img/productSingle_middle");
@@ -130,7 +125,7 @@ public class ProductImageServlet extends BaseBackServlet {
     		File f_detail =new File(imageFolder_detail,pi.getId()+".jpg");
     		f_detail.delete();        	
         }
-		return "@admin_productImage_list?pid="+pi.getProduct().getId();
+		return "@admin_productImage_selectAll?pid="+pi.getProduct().getId();
 	}
 
 	
@@ -146,9 +141,9 @@ public class ProductImageServlet extends BaseBackServlet {
 	
 	public String list(HttpServletRequest request, HttpServletResponse response, Page page) {
 		int pid = Integer.parseInt(request.getParameter("pid"));
-		Product p =productDAO.get(pid);
-		List<ProductImage> pisSingle = productImageDAO.list(p, ProductImageDAO.type_single);
-		List<ProductImage> pisDetail = productImageDAO.list(p, ProductImageDAO.type_detail);
+		Product p =productService.selectById(pid);
+		List<ProductImage> pisSingle = productImageService.selectAll(p, ProductImageDao.type_single);
+		List<ProductImage> pisDetail = productImageService.selectAll(p, ProductImageDao.type_detail);
 		
 		request.setAttribute("p", p);
 		request.setAttribute("pisSingle", pisSingle);
@@ -157,9 +152,3 @@ public class ProductImageServlet extends BaseBackServlet {
 		return "admin/listProductImage.jsp";
 	}
 }
-
-/**
-* 模仿天猫整站j2ee 教程 为how2j.cn 版权所有
-* 本教程仅用于学习使用，切勿用于非法用途，由此引起一切后果与本站无关
-* 供购买者学习，请勿私自传播，否则自行承担相关法律责任
-*/	

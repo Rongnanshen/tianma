@@ -12,10 +12,6 @@ import java.util.Properties;
 
 public class DBUtil {
 
-	private static String ip = "127.0.0.1";
-	private static int port = 3306;
-	private static String database = "tianma";
-	private static String encoding = "UTF-8";
 	private static String driver;
 	private static String url;
 	private static String user;
@@ -23,9 +19,8 @@ public class DBUtil {
 
 	static {
 		try {
-			//将相关的数据库配置信息生成到properties文件中
+			
 			GenerateProperties generateProperties = new GenerateProperties();
-			generateProperties.fileOutput(ip, port, database, encoding);
 			
 			// 用流读入properties配置文件
 			InputStream inputStream = new BufferedInputStream(new FileInputStream(new File("db.properties")));
@@ -59,6 +54,7 @@ public class DBUtil {
 			System.out.println(password);
 			// 加载驱动
 			Class.forName(driver);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

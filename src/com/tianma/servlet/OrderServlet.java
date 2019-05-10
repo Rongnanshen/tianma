@@ -1,8 +1,3 @@
-/**
-* 模仿天猫整站j2ee 教程 为how2j.cn 版权所有
-* 本教程仅用于学习使用，切勿用于非法用途，由此引起一切后果与本站无关
-* 供购买者学习，请勿私自传播，否则自行承担相关法律责任
-*/	
 
 package com.tianma.servlet;
 
@@ -12,9 +7,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import tmall.bean.Order;
-import tmall.dao.OrderDAO;
-import tmall.util.Page;
+import com.tianma.dao.OrderDao;
+import com.tianma.pojo.Order;
+import com.tianma.util.Page;
 
 public class OrderServlet extends BaseBackServlet {
 
@@ -29,11 +24,11 @@ public class OrderServlet extends BaseBackServlet {
 	}
 	public String delivery(HttpServletRequest request, HttpServletResponse response, Page page) {
 		int id = Integer.parseInt(request.getParameter("id"));
-		Order o = orderDAO.get(id);
+		Order o = orderService.selectById(id);
 		o.setDeliveryDate(new Date());
-		o.setStatus(OrderDAO.waitConfirm);
-		orderDAO.update(o);
-		return "@admin_order_list";
+		o.setStatus(OrderDao.waitConfirm);
+		orderService.update(o);
+		return "@admin_order_selectAll";
 	}
 
 	
@@ -48,9 +43,9 @@ public class OrderServlet extends BaseBackServlet {
 
 	
 	public String list(HttpServletRequest request, HttpServletResponse response, Page page) {
-		List<Order> os = orderDAO.list(page.getStart(),page.getCount());
-		orderItemDAO.fill(os);
-		int total = orderDAO.getTotal();
+		List<Order> os = orderService.selectAll(page.getStart(),page.getCount());
+		orderItemService.fill(os);
+		int total = orderService.getTotal();
 		page.setTotal(total);
 		
 		request.setAttribute("os", os);
@@ -59,9 +54,3 @@ public class OrderServlet extends BaseBackServlet {
 		return "admin/listOrder.jsp";
 	}
 }
-
-/**
-* 模仿天猫整站j2ee 教程 为how2j.cn 版权所有
-* 本教程仅用于学习使用，切勿用于非法用途，由此引起一切后果与本站无关
-* 供购买者学习，请勿私自传播，否则自行承担相关法律责任
-*/	

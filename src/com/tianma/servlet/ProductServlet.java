@@ -1,26 +1,22 @@
-/**
-* 模仿天猫整站j2ee 教程 为how2j.cn 版权所有
-* 本教程仅用于学习使用，切勿用于非法用途，由此引起一切后果与本站无关
-* 供购买者学习，请勿私自传播，否则自行承担相关法律责任
-*/	
 
 package com.tianma.servlet;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tmall.bean.Category;
-import tmall.bean.Product;
-import tmall.bean.Property;
-import tmall.bean.PropertyValue;
-import tmall.util.Page;
+
+import com.tianma.pojo.Category;
+import com.tianma.pojo.Product;
+import com.tianma.pojo.PropertyValue;
+import com.tianma.util.Page;
 
 public class ProductServlet extends BaseBackServlet {
 
 	
 	public String add(HttpServletRequest request, HttpServletResponse response, Page page) {
 		int cid = Integer.parseInt(request.getParameter("cid"));
-		Category c = categoryDAO.get(cid);
+		Category c = categoryService.selectById(cid);
 		
 		String name= request.getParameter("name");
 		String subTitle= request.getParameter("subTitle");
@@ -39,34 +35,34 @@ public class ProductServlet extends BaseBackServlet {
 		
 
 		
-		productDAO.add(p);
-		return "@admin_product_list?cid="+cid;
+		productService.add(p);
+		return "@admin_product_selectAll?cid="+cid;
 	}
 
 	
 	public String delete(HttpServletRequest request, HttpServletResponse response, Page page) {
 		int id = Integer.parseInt(request.getParameter("id"));
-		Product p = productDAO.get(id);
-		productDAO.delete(id);
-		return "@admin_product_list?cid="+p.getCategory().getId();
+		Product p = productService.selectById(id);
+		productService.delete(id);
+		return "@admin_product_selectAll?cid="+p.getCategory().getId();
 	}
 
 	
 	public String edit(HttpServletRequest request, HttpServletResponse response, Page page) {
 		int id = Integer.parseInt(request.getParameter("id"));
-		Product p = productDAO.get(id);
+		Product p = productService.selectById(id);
 		request.setAttribute("p", p);
 		return "admin/editProduct.jsp";		
 	}
 	
 	public String editPropertyValue(HttpServletRequest request, HttpServletResponse response, Page page) {
 		int id = Integer.parseInt(request.getParameter("id"));
-		Product p = productDAO.get(id);
+		Product p = productService.selectById(id);
 		request.setAttribute("p", p);
 		
-		propertyValueDAO.init(p);
+		propertyValueService.init(p);
 		
-		List<PropertyValue> pvs = propertyValueDAO.list(p.getId());
+		List<PropertyValue> pvs = propertyValueService.selectByProduct(p.getId());
 		
 		request.setAttribute("pvs", pvs);
 		
@@ -77,15 +73,15 @@ public class ProductServlet extends BaseBackServlet {
 		int pvid = Integer.parseInt(request.getParameter("pvid"));
 		String value = request.getParameter("value");
 		
-		PropertyValue pv =propertyValueDAO.get(pvid);
+		PropertyValue pv =propertyValueService.selectById(pvid);
 		pv.setValue(value);
-		propertyValueDAO.update(pv);
+		propertyValueService.update(pv);
 		return "%success";
 	}
 	
 	public String update(HttpServletRequest request, HttpServletResponse response, Page page) {
 		int cid = Integer.parseInt(request.getParameter("cid"));
-		Category c = categoryDAO.get(cid);
+		Category c = categoryService.selectById(cid);
 
 		int id = Integer.parseInt(request.getParameter("id"));
 		int stock = Integer.parseInt(request.getParameter("stock"));
@@ -104,18 +100,18 @@ public class ProductServlet extends BaseBackServlet {
 		p.setId(id);
 		p.setCategory(c);		
 
-		productDAO.update(p);
-		return "@admin_product_list?cid="+p.getCategory().getId();
+		productService.update(p);
+		return "@admin_product_selectAll?cid="+p.getCategory().getId();
 	}
 
 	
 	public String list(HttpServletRequest request, HttpServletResponse response, Page page) {
 		int cid = Integer.parseInt(request.getParameter("cid"));
-		Category c = categoryDAO.get(cid);
+		Category c = categoryService.selectById(cid);
 		
-		List<Product> ps = productDAO.list(cid, page.getStart(),page.getCount());
+		List<Product> ps = productService.selectAll(cid, page.getStart(),page.getCount());
 		
-		int total = productDAO.getTotal(cid);
+		int total = productService.getTotal(cid);
 		page.setTotal(total);
 		page.setParam("&cid="+c.getId());
 		
@@ -128,9 +124,3 @@ public class ProductServlet extends BaseBackServlet {
 		return "admin/listProduct.jsp";
 	}
 }
-
-/**
-* 模仿天猫整站j2ee 教程 为how2j.cn 版权所有
-* 本教程仅用于学习使用，切勿用于非法用途，由此引起一切后果与本站无关
-* 供购买者学习，请勿私自传播，否则自行承担相关法律责任
-*/	

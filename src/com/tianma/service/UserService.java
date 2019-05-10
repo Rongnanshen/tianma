@@ -44,12 +44,22 @@ public interface UserService {
 	/*
 	 * 判断账号是否已经存在
 	 */
-	boolean isExist(String mobile);
+	boolean isExistMobile(String mobile);
+	
+	/*
+	 * 判断昵称是否已经存在
+	 */
+	boolean isExistName(String name);
 
 	/*
 	 * 通过手机号查询
 	 */
 	User selectByMobile(String mobile);
+	
+	/*
+	 * 通过昵称查询
+	 */
+	User selectByName(String name);
 
 	/*
 	 * 登录验证

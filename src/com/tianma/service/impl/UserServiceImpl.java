@@ -102,11 +102,20 @@ public class UserServiceImpl implements UserService {
 	 * @see com.tianma.service.impl.UserService#isExist(java.lang.String)
 	 */
 	@Override
-	public boolean isExist(String mobile) {
+	public boolean isExistMobile(String mobile) {
 		userDao = new UserDaoImpl();
-		return userDao.isExist(mobile);
+		return userDao.isExistMobile(mobile);
 	}
 
+	/*
+	 * 判断昵称是否已经存在
+	 */
+	@Override
+	public boolean isExistName(String name) {
+		userDao = new UserDaoImpl();
+		return userDao.isExistName(name);
+	}
+	
 	/*
 	 * 通过手机号查询
 	 */
@@ -117,6 +126,15 @@ public class UserServiceImpl implements UserService {
 	public User selectByMobile(String mobile) {
 		userDao = new UserDaoImpl();
 		return userDao.selectByMobile(mobile);
+	}
+	
+	/*
+	 * 通过昵称查询
+	 */
+	@Override
+	public User selectByName(String name) {
+		userDao = new UserDaoImpl();
+		return userDao.selectByName(name);
 	}
 
 	/*
